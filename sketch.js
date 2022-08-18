@@ -11,8 +11,16 @@ const Composite = Matter.Composite;
 let engine;
 let world;
 var ground;
-var fruit,rope;
+var fruit,rope,rabbit;
 var link;
+var fruitImg, rabbitImg, backgroundImg;
+var button;
+
+function preload(){
+  fruitImg = loadImage("assets/melon.png");
+  rabbitImg = loadImage("assets/Rabbit-01.png");
+  backgroundImg = loadImage("assets/background.png");
+}
 
 function setup() 
 {
@@ -29,29 +37,41 @@ function setup()
   ground = new Ground(200,690,600,20);
 
   //criar a corda
-  rope = new Rope(5,{x:250,y:20});
+  rope = new Rope(6,{x:250,y:20});
 
   //criar a fruta
 
   var fruit_options = {
-    density: 0.001
+    density: 0.0001
   }
 
-  fruit = Bodies.circle(300,300,15,fruit_options);
+  fruit = Bodies.circle(300,250,60,fruit_options);
    
   //configuração de texto e desenho
   rectMode(CENTER);
   ellipseMode(RADIUS);
+  imageMode(CENTER);
   textSize(50);
 
+  //adicionando a fruta e a corda no composto
+  Matter.Composite.add(rope.body,fruit);
+
   //link entre a corda e a fruta
- link = new Link(rope, fruit);
+  link = new Link(rope, fruit);
+
+  //botão para cortar a corda
+  button = createImg('assets/cut_btn.png');
+  button.position(220,30);
+  button.size(60,60);
+  button.mouseClicked(drop);
+
 }
 
 function draw() 
 {
   //cor de fundo
-  background(0);
+  //background(0);
+  image(backgroundImg, width/2, height/2, width,height);
   
   //atualização do mecanismo de física
   Engine.update(engine);
@@ -63,11 +83,14 @@ function draw()
   rope.show();
 
   //mostrar a fruta
-  ellipse(fruit.position.x, fruit.position.y, 20);
+  push();
+  imageMode(CENTER);
+  image(fruitImg,fruit.position.x, fruit.position.y, 60,60);
+  pop();
 
+}
 
- 
-
- 
-   
+//função que solta a fruta da corda
+function drop(){
+  //colocar os comandos
 }
