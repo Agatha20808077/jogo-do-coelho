@@ -39,6 +39,11 @@ function setup()
   //criar a corda
   rope = new Rope(6,{x:250,y:20});
 
+  //criar o coelho
+  rabbit = createSprite(200, 630);
+  rabbit.addImage("coelho", rabbitImg)
+  rabbit.scale = 0.2
+
   //criar a fruta
 
   var fruit_options = {
@@ -88,9 +93,14 @@ function draw()
   image(fruitImg,fruit.position.x, fruit.position.y, 60,60);
   pop();
 
+  drawSprites();
 }
 
 //função que solta a fruta da corda
 function drop(){
   //colocar os comandos
+  rope.break();
+  link.dettach();
+  link = null
+
 }
