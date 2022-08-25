@@ -15,11 +15,21 @@ var fruit,rope,rabbit;
 var link;
 var fruitImg, rabbitImg, backgroundImg;
 var button;
+var piscandoAnimation, comendoAnimation, tristeAnimation;
 
 function preload(){
   fruitImg = loadImage("assets/melon.png");
   rabbitImg = loadImage("assets/Rabbit-01.png");
   backgroundImg = loadImage("assets/background.png");
+  piscandoAnimation = loadAnimation("assets/blink_1.png", "assets/blink_2.png", "assets/blink_3.png");
+  comendoAnimation = loadAnimation("assets/eat_0.png", "assets/eat_1.png", "assets/eat_2.png", "assets/eat_3.png", "assets/eat_4.png");
+  tristeAnimation = loadAnimation("assets/sad_1.png", "assets/sad_2.png", "assets/sad_3.png");
+
+  //animação começa aparecendo, ela se repete 
+  piscandoAnimation.playing = true;
+  piscandoAnimation.looping = true;
+  //comendo, triste
+
 }
 
 function setup() 
@@ -39,9 +49,16 @@ function setup()
   //criar a corda
   rope = new Rope(6,{x:250,y:20});
 
+  //atraso para a animação
+  piscandoAnimation.frameDelay = 15;
+
   //criar o coelho
   rabbit = createSprite(200, 630);
-  rabbit.addImage("coelho", rabbitImg)
+  //rabbit.addImage("coelho", rabbitImg);
+  rabbit.addAnimation("piscando", piscandoAnimation);
+  rabbit.addAnimation("comendo", comendoAnimation);
+  rabbit.addAnimation("triste", tristeAnimation);
+
   rabbit.scale = 0.2
 
   //criar a fruta
@@ -101,6 +118,17 @@ function drop(){
   //colocar os comandos
   rope.break();
   link.dettach();
-  link = null
+  link = null;
+}
 
+//função que detecta a colisão entre a fruta e o coelho
+function collide(body,sprite){
+  if(body != null){
+    var distancia = dist(body.position.x, body.position.y, sprite.position.x, sprite.position.y);
+    if(distancia <= 80){
+
+    }else{ //não colidiu
+
+    }
+  }
 }
