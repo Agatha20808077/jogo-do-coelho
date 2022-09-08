@@ -18,6 +18,7 @@ var button, button2, button3, buttonMute;
 var piscandoAnimation, comendoAnimation, tristeAnimation;
 var cortarSom, comerSom, tristeSom, arSom, backgroundSom;
 var canW, canH; //tamanho da tela (W: width, H: Height)
+var soprador
 
 function preload(){
   fruitImg = loadImage("assets/melon.png");
@@ -73,8 +74,9 @@ function setup()
   ground = new Ground(200,canH-70,600,20);
 
   //criar a corda
-  rope = new Rope(6,{x:250,y:50});
+  rope = new Rope(4,{x:250,y:50});
   rope2 = new Rope(4,{x:70,y:100});
+  rope3 = new Rope(7,{x:330, y:80});
 
   //configuração de texto e desenho
   rectMode(CENTER);
@@ -91,6 +93,7 @@ function setup()
   //link entre a corda e a fruta
   link = new Link(rope, fruit);
   link2 = new Link(rope2, fruit);
+  link3 = new Link(rope3, fruit);
 
   //botão para cortar a corda
   button = createImg('assets/cut_btn.png');
@@ -103,11 +106,22 @@ function setup()
   button2.size(60,60);
   button2.mouseClicked(drop2);
 
+  button3 = createImg('assets/cut_btn.png');
+  button3.position(290,80);
+  button3.size(60,60);
+  button3.mouseClicked(drop3);
+
   //botão para mutar o som de fundo
   buttonMute = createImg('assets/mute.png');
   buttonMute.position(440,30);
   buttonMute.size(60,60);
   buttonMute.mouseClicked(mute);
+
+  //botão para assoprar a fruta
+  soprador = createImg("assets/balloon.png");
+  soprador.position(50,200);
+  soprador.size(60,60);
+  soprador.mouseClicked(soprar);
 
   //atraso para a animação
   piscandoAnimation.frameDelay = 15;
@@ -146,13 +160,14 @@ function draw()
    //mostrar a corda
   rope.show();
   rope2.show();
+  rope3.show();
 
   //chamada da função de colisão
   if(collide(fruit,rabbit)==true){
     rabbit.changeAnimation("comendo");
     comerSom.play();
   }
-  if(fruit != null && fruit.position.y >= 650){
+  if(fruit != null && fruit.position.y >= canH - 100){
     rabbit.changeAnimation("triste");
     backgroundSom.stop();
     tristeSom.play();
@@ -200,4 +215,17 @@ function mute(){
   }else{
     backgroundSom.play();
   }
+}
+
+function soprar(){
+  Matter.Body.applyForce(fruit, {x:0, y:0}, {x:0.02, y:0});
+  arSom.play()
+}
+
+function drop3(){
+  //colocar os comandos
+  rope3.break();
+  link3.dettach();
+  link3 = null;
+  cortarSom.play();
 }
