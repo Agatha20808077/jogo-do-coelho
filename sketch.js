@@ -127,7 +127,7 @@ function setup()
   piscandoAnimation.frameDelay = 15;
 
   //criar o coelho
-  rabbit = createSprite(400, canH-120);
+  rabbit = createSprite(200, canH-120);
   //rabbit.addImage("coelho", rabbitImg);
   rabbit.addAnimation("piscando", piscandoAnimation);
   rabbit.addAnimation("comendo", comendoAnimation);
